@@ -7,10 +7,10 @@ on:
   watch: 
       types: [started]
 env:
-  ROM_URL: https://assorted.downloads.oppo.com/firmware/CPH2035/CPH2035EU_11_OTA_0260_all_vjPX4o6sc7BR.ozip
+  ROM_URL: https://assorted.downloads.oppo.com/firmware/CPH2015/CPH2015EUEX_11_OTA_0400_all_udVdU8UqDAdZ.ozip
   ROM_NAME: ColorOS
   FIRMWAREZIPNAME: ColorOS_Test.zip
-  ZIP_NAME: LenovoLegionEE
+  ZIP_NAME: COLOROS
   SCRIPT_NAME: COLOROS
   TZ: Europe/London
   SFDIRA1: cd /home/pfs/project/berkay-gsi/ColorOS
