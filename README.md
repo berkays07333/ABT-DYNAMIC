@@ -1,4 +1,4 @@
-                                𝙃𝙚𝙡𝙞𝙤𝙨𝘽𝙖𝙠𝙚𝙧Dynamic This Project should not be shared with *others*. those have given access can **Bake**
+                                *AmyBaker* Dynamic This Project should not be shared with *others*. those have given access can **Bake**
 
 ### INSTRUCTIONS ABOUT USING THIS TOOL: ###
 ### you should change the following env from the workflow : ###
