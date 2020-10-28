@@ -13,7 +13,7 @@ env:
 jobs:
     build:
        runs-on: ubuntu-latest
-    
+
     
        steps:
         - name: Checkout
@@ -46,14 +46,61 @@ jobs:
         - name: MAKING THE COOKIES
           run: cd ErfanGSIs && sudo ./url2GSI.sh cache/dynamic $ROM_NAME  
        
-        - name: Zipping BOTH COOKIES
+        - name: Zipping
           run: |
               mkdir final
               sudo chmod -R 777 ErfanGSIs/output
               zip -r ErfanGSIs/output/$ZIP_NAME-GSI-Aonly.7z ErfanGSIs/output/*-Aonly-*.img 
               zip -r ErfanGSIs/output/$ZIP_NAME-GSI-AB.7z ErfanGSIs/output/*-AB-*.img
               
-        - name: uploading to AMYBAKERY
+                
+        - name: Uploading SourceForge
+          run: |   
+              cd ErfanGSIs/output
+              expect -c " 
+              spawn sftp berkay-gsi@frs.sourceforge.net
+              expect \"yes/no\"
+              send \"yes\r\"
+              expect \"Password\"        
+              send \"${{ secrets.SFGPASS }}\r\"
+              expect \"sftp> \"
+              send \"$SFDIRA2\r\"
+              set timeout -1
+              send \"put *-Aonly-*.txt\r\"
+              expect \"Uploading\"
+              expect \"100%\"
+              expect \"sftp>\"
+              interact"
+              expect -c "
+              spawn sftp berkay-gsi@frs.sourceforge.net
+              expect \"Password\"
+              send \"${{ secrets.SFGPASS }}\r\"
+              expect \"sftp> \"
+              send \"$SFDIRA1\r\"
+              set timeout -1
+              send \"put $ZIP_NAME-GSI-Aonly.7z\r\"
+              expect \"Uploading\"
+              expect \"100%\"
+              expect \"sftp>\"
+              interact"
+              expect -c "
+              spawn sftp berkay-gsi@frs.sourceforge.net
+              expect \"Password\"
+              send \"${{ secrets.SFGPASS }}\r\"
+              expect \"sftp> \"
+              send \"$SFDIRA1\r\"
+              set timeout -1
+              send \"put $ZIP_NAME-GSI-AB.7z\r\"
+              expect \"Uploading\"
+              expect \"100%\"
+              expect \"sftp>\"
+              send \"bye\r\"
+              interact"  
+        - name: Print build info
+          run: |
+              cat ErfanGSIs/output/*-Aonly-*.txt
+              
+        - name: uploading
           run: |   
               cd ErfanGSIs/output   
               curl -sL https://git.io/file-transfer | sh    
