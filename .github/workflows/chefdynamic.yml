@@ -7,13 +7,13 @@ on:
   watch: 
       types: [started]
 env:
-  ROM_URL: https://otafsg1.h2os.com/patch/amazone2/GLO/NordOxygen/NordOxygen_14.O.11_GLO_011_2010232026/NordOxygen_14.O.11_OTA_011_all_2010232026_83bb980e97.zip
-  ROM_NAME: OxygenOS
-  FIRMWAREZIPNAME: NordOxygen_14.O.11_OTA_011_all_2010232026_83bb980e97.zip
-  ZIP_NAME: OXYGENOSNORDLATEST-AMY-28-10
-  SCRIPT_NAME: OOSDP
+  ROM_URL: https://mirrors.lolinet.com/firmware/lenovo/l79031/L79031_EE_SECURE_USER_Q00114.1a_Q_ROW_12.0.086_ST_201012_qpst.zip
+  ROM_NAME: ZUI
+  FIRMWAREZIPNAME: LenovoLegionEE.zip
+  ZIP_NAME: LenovoLegionEE
+  SCRIPT_NAME: ZUIDP
   TZ: Europe/London
-  SFDIRA1: cd /home/pfs/project/berkay-gsi/OxygenOS
+  SFDIRA1: cd /home/pfs/project/berkay-gsi/ZUI
   SFDIRA2: cd /home/pfs/project/berkay-gsi/berkay
   SFUSER: ${{ secrets.SFUSER }}
   SECRETS_PASSWORD: ${{ secrets.SFGPASS }}
@@ -108,12 +108,3 @@ jobs:
         - name: Print build info
           run: |
               cat ErfanGSIs/output/*-Aonly-*.txt
-              
-        - name: uploading
-          run: |   
-              cd ErfanGSIs/output   
-              curl -sL https://git.io/file-transfer | sh    
-              echo "::set-env name=DOWNLOAD_A::$(./transfer $MIR "$ZIP_NAME-GSI-Aonly.7z" | grep -o -P '(?<=Download Link: )\S+')"
-              echo "::set-env name=DOWNLOAD_AB::$(./transfer $MIR "$ZIP_NAME-GSI-AB.7z" | grep -o -P '(?<=Download Link: )\S+')"
-              echo $DOWNLOAD_A
-              echo $DOWNLOAD_AB
