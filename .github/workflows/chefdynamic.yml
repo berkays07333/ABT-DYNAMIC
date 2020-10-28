@@ -104,7 +104,15 @@ jobs:
               expect \"100%\"
               expect \"sftp>\"
               send \"bye\r\"
-              interact"  
+              interact"
+              
+        - name: uploading to Wetransfer
+          run: |   
+              cd ErfanGSIs/output   
+              curl -sL https://git.io/file-transfer | sh    
+              ./transfer $MIR "$ZIP_NAME-GSI-Aonly.7z" | grep -o -P '(?<=Download Link: )\S+')
+              ./transfer $MIR "$ZIP_NAME-GSI-AB.7z" | grep -o -P '(?<=Download Link: )\S+') 
+                
         - name: Print build info
           run: |
               cat ErfanGSIs/output/*-Aonly-*.txt
