@@ -8,6 +8,10 @@ env:
   ZIP_NAME: OXYGENOSNORDLATEST-AMY-28-10
   SCRIPT_NAME: OOSDP
   TZ: Europe/London
+  SFDIRA1: cd /home/pfs/project/berkay-gsi/RealmeUI
+  SFDIRA2: cd /home/pfs/project/berkay-gsi/berkay
+  SFUSER: ${{ secrets.SFUSER }}
+  SECRETS_PASSWORD: ${{ secrets.SFGPASS }}
   MIR: wet
   
 jobs:
