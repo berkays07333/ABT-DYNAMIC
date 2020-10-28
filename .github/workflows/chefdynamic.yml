@@ -7,13 +7,13 @@ on:
   watch: 
       types: [started]
 env:
-  ROM_URL: https://assorted.downloads.oppo.com/firmware/CPH2015/CPH2015EUEX_11_OTA_0400_all_udVdU8UqDAdZ.ozip
-  ROM_NAME: ColorOS
-  FIRMWAREZIPNAME: ColorOS_Test.zip
-  ZIP_NAME: COLOROS
-  SCRIPT_NAME: COLOROS
+  ROM_URL: https://mirrors.lolinet.com/firmware/lenovo/l10041/official/L10041_ROW_SECURE_USER_M6750m_Q_DRV_11.5.263_ST_200824_SVC.zip
+  ROM_NAME: ZUI
+  FIRMWAREZIPNAME: ZUI_Test.zip
+  ZIP_NAME: ZUI
+  SCRIPT_NAME: ZUIDP
   TZ: Europe/London
-  SFDIRA1: cd /home/pfs/project/berkay-gsi/ColorOS
+  SFDIRA1: cd /home/pfs/project/berkay-gsi/ZUI
   SFDIRA2: cd /home/pfs/project/berkay-gsi/berkay
   SFUSER: ${{ secrets.SFUSER }}
   SECRETS_PASSWORD: ${{ secrets.SFGPASS }}
