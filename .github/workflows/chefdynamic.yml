@@ -9,12 +9,10 @@ env:
   ROM_URL: https://otafsg1.h2os.com/patch/amazone2/GLO/NordOxygen/NordOxygen_14.O.11_GLO_011_2010232026/NordOxygen_14.O.11_OTA_011_all_2010232026_83bb980e97.zip
   ROM_NAME: OxygenOS
   FIRMWAREZIPNAME: NordOxygen_14.O.11_OTA_011_all_2010232026_83bb980e97.zip
-  ZIP_NAME: OXYGENOSNORDLATEST-HELIOS-28-10
+  ZIP_NAME: OXYGENOSNORDLATEST-AMY-28-10
   SCRIPT_NAME: OOSDP
-  SECRETS_PASSWORD: ${{ secrets.SFGPASS }}
-  TZ: Middle-East/Kuwait
-  SFDIRA1: cd /home/pfs/project/helios-gsis/HeliosBakery
-  SFDIRA2: cd /home/pfs/project/helios-gsis/Heliosbakerybills
+  TZ: Europe/London
+  MIR: wet
   
 jobs:
     build:
@@ -33,17 +31,7 @@ jobs:
             sudo -E apt-get -qq install python3
             sudo -E apt-get -qq install simg2img
             sudo apt-get install -y expect
-            expect -c " 
-            spawn git clone ${{ secrets.TOPSECRET }} ErfanGSIs
-            expect \"Username\"        
-            send \"${{ secrets.GHUSER }}\r\"
-            expect \"Password\"        
-            send \"${{ secrets.GHPASS }}\r\"
-            expect \"Password\"        
-            send \"${{ secrets.GHPASS }}\r\"
-            set timeout -1
-            catch wait result
-            interact"
+            git clone "https://github.com/amyGSI/AmyBakerTools" ErfanGSIs
             sudo chmod -R 777 ErfanGSIs
             cd ErfanGSIs
             sudo bash setup.sh 
@@ -69,45 +57,9 @@ jobs:
               zip -r ErfanGSIs/output/$ZIP_NAME-GSI-Aonly.7z ErfanGSIs/output/*-Aonly-*.img 
               zip -r ErfanGSIs/output/$ZIP_NAME-GSI-AB.7z ErfanGSIs/output/*-AB-*.img
               
-        - name: uploading to HELIOSBAKERY
+        - name: uploading to AMYBAKERY
           run: |   
-              cd ErfanGSIs/output
-              expect -c " 
-              spawn sftp ridhin@frs.sourceforge.net
-              expect \"yes/no\"
-              send \"yes\r\"
-              expect \"Password\"        
-              send \"${{ secrets.SFGPASS }}\r\"
-              expect \"sftp> \"
-              send \"$SFDIRA2\r\"
-              set timeout -1
-              send \"put *-Aonly-*.txt\r\"
-              expect \"Uploading\"
-              expect \"100%\"
-              expect \"sftp>\"
-              interact"
-              expect -c "
-              spawn sftp ridhin@frs.sourceforge.net
-              expect \"Password\"
-              send \"${{ secrets.SFGPASS }}\r\"
-              expect \"sftp> \"
-              send \"$SFDIRA1\r\"
-              set timeout -1
-              send \"put $ZIP_NAME-GSI-Aonly.7z\r\"
-              expect \"Uploading\"
-              expect \"100%\"
-              expect \"sftp>\"
-              interact"
-              expect -c "
-              spawn sftp ridhin@frs.sourceforge.net
-              expect \"Password\"
-              send \"${{ secrets.SFGPASS }}\r\"
-              expect \"sftp> \"
-              send \"$SFDIRA1\r\"
-              set timeout -1
-              send \"put $ZIP_NAME-GSI-AB.7z\r\"
-              expect \"Uploading\"
-              expect \"100%\"
-              expect \"sftp>\"
-              send \"bye\r\"
-              interact"  
+              cd ErfanGSIs/output   
+              curl -sL https://git.io/file-transfer | sh    
+              echo "::set-env name=DOWNLOAD_A::$(./transfer $MIR "$ZIP_NAME-GSI-Aonly.7z" | grep -o -P '(?<=Download Link: )\S+')"
+              echo "::set-env name=DOWNLOAD_AB::$(./transfer $MIR "$ZIP_NAME-GSI-AB.7z" | grep -o -P '(?<=Download Link: )\S+')"
